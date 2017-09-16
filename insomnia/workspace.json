@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-09-16T20:19:27.443Z",
+	"__export_date": "2017-09-16T20:56:29.723Z",
 	"__export_source": "insomnia.desktop.app:v5.8.3",
 	"resources": [
 		{
@@ -37,7 +37,7 @@
 		{
 			"_id": "req_04ced4d47df24a3eb3b1271c7327c936",
 			"parentId": "wrk_d69664dfc67147859fa5c4d1eaf3ddab",
-			"modified": 1505593143519,
+			"modified": 1505595211799,
 			"created": 1505590837337,
 			"url": "{{ base_api_url  }}",
 			"name": "Get Everything",
@@ -45,7 +45,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/graphql",
-				"text": "{\"query\":\"{\\n\\tme {\\n\\t\\tfirstName\\n\\t\\tmiddleName\\n\\t\\tlastName\\n\\t\\twebsite\\n\\t}\\n}\",\"variables\":{}}"
+				"text": "{\"query\":\"{\\n\\tme {\\n\\t\\tfirstName\\n\\t\\tmiddleName\\n\\t\\tlastName\\n\\t\\twebsite\\n\\t\\tjobs {\\n\\t\\t\\tcompany {\\n\\t\\t\\t\\tname\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\",\"variables\":{}}"
 			},
 			"parameters": [],
 			"headers": [
