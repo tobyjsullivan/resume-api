@@ -6,13 +6,13 @@ import (
 	"errors"
 )
 
+const dateFmt = "2006-01-02"
+
 func resolveMe(db *data.Database) graphql.FieldResolveFn {
 	return func(p graphql.ResolveParams) (interface{}, error) {
 		return db.Me, nil
 	}
 }
-
-
 
 var companyType = graphql.NewObject(
 	graphql.ObjectConfig{
@@ -33,6 +33,55 @@ var companyType = graphql.NewObject(
 	},
 )
 
+var roleType = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "Role",
+		Fields: graphql.Fields{
+			"title": &graphql.Field{
+				Type: graphql.String,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					job, ok := p.Source.(*data.Role)
+					if !ok {
+						return nil, errors.New("Couldn't cast to Role")
+					}
+
+					return job.Title, nil
+				},
+			},
+			"startDate": &graphql.Field{
+				Type: graphql.String,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					job, ok := p.Source.(*data.Role)
+					if !ok {
+						return nil, errors.New("Couldn't cast to Role")
+					}
+
+					if job.StartDate == nil {
+						return nil, nil
+					}
+
+					return job.StartDate.Format(dateFmt), nil
+				},
+			},
+			"endDate": &graphql.Field{
+				Type: graphql.String,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					job, ok := p.Source.(*data.Role)
+					if !ok {
+						return nil, errors.New("Couldn't cast to Role")
+					}
+
+					if job.EndDate == nil {
+						return nil, nil
+					}
+
+					return job.EndDate.Format(dateFmt), nil
+				},
+			},
+		},
+	},
+)
+
 var jobType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "Job",
@@ -46,6 +95,17 @@ var jobType = graphql.NewObject(
 					}
 
 					return job.Company, nil
+				},
+			},
+			"roles": &graphql.Field{
+				Type: graphql.NewList(roleType),
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					job, ok := p.Source.(*data.Job)
+					if !ok {
+						return nil, errors.New("Couldn't cast to Job")
+					}
+
+					return job.Roles, nil
 				},
 			},
 		},

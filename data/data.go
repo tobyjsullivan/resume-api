@@ -48,7 +48,7 @@ var (
 				{
 					Company: &Company{Name: "Klue"},
 					Roles: []*Role{
-						&Role{
+						{
 							Title: "Software Developer",
 							StartDate: date("2017-04-24"),
 							EndDate: nil,
@@ -58,7 +58,7 @@ var (
 				{
 					Company: &Company{Name: "Teespring"},
 					Roles: []*Role{
-						&Role{
+						{
 							Title: "Software Developer",
 							StartDate: date("2016-01-03"),
 							EndDate: date("2016-12-21"),
@@ -68,17 +68,17 @@ var (
 				{
 					Company: &Company{Name: "Hootsuite"},
 					Roles: []*Role{
-						&Role{
+						{
 							Title: "Software Developer (Contract)",
 							StartDate: date("2013-01-01"),
 							EndDate: date("2013-03-31"),
 						},
-						&Role{
+						{
 							Title: "Software Developer",
 							StartDate: date("2013-11-04"),
 							EndDate: nil,
 						},
-						&Role{
+						{
 							Title: "Lead Software Developer",
 							StartDate: nil,
 							EndDate: date("2015-12-24"),
@@ -88,35 +88,40 @@ var (
 				{
 					Company: &Company{Name: "Metalogix"},
 					Roles: []*Role{
-						&Role{
+						{
 							Title: "Software Developer Co-op",
-							StartDate: nil,
-							EndDate: nil,
+							StartDate: date("2008-05-01"),
+							EndDate: date("2008-12-24"),
 						},
-						&Role{
+						{
 							Title: "Software Developer",
-							StartDate: nil,
+							StartDate: date("2008-12-24"),
 							EndDate: nil,
 						},
-						&Role{
+						{
 							Title: "Lead Software Developer",
 							StartDate: nil,
-							EndDate: nil,
+							EndDate: date("2012-06-29"),
+						},
+						{
+							Title: "Software Developer (Freelance)",
+							StartDate: date("2012-06-29"),
+							EndDate: date("2012-12-24"),
 						},
 					},
 				},
 				{
 					Company: &Company{Name: "ShipConstructor"},
 					Roles: []*Role{
-						&Role{
+						{
 							Title: "Quality Assurance Co-op",
-							StartDate: nil,
-							EndDate: nil,
+							StartDate: date("2006-05-01"),
+							EndDate: date("2006-08-31"),
 						},
-						&Role{
+						{
 							Title: "Software Developer Co-op",
-							StartDate: nil,
-							EndDate: nil,
+							StartDate: date("2007-05-01"),
+							EndDate: date("2007-08-31"),
 						},
 					},
 				},

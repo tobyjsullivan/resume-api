@@ -11,6 +11,7 @@ import (
 	"github.com/tobyjsullivan/resume-api/data"
 	"github.com/tobyjsullivan/resume-api/schema"
 	"github.com/urfave/negroni"
+	"os"
 )
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {
@@ -51,7 +52,10 @@ func main() {
 	n := negroni.New()
 	n.UseHandler(r)
 
-	port := "8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	fmt.Printf("Now server is running on port %s\n", port)
 	n.Run(":" + port)
