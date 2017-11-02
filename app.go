@@ -8,8 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/graphql"
-	"github.com/tobyjsullivan/resume-api/data"
-	"github.com/tobyjsullivan/resume-api/schema"
+	"github.com/tobyjsullivan/resume-api/resolvers"
 	"github.com/urfave/negroni"
 	"os"
 )
@@ -26,11 +25,10 @@ func executeQuery(query string, schema graphql.Schema) *graphql.Result {
 }
 
 func main() {
-	db := data.LoadDatabase()
 
-	graphSchema, err := schema.NewSchema(db)
+	graphSchema, err := resolvers.NewSchema()
 	if err != nil {
-		log.Fatalln("failed to create new schema", err)
+		log.Fatalln("failed to create new resolvers", err)
 	}
 
 	r := mux.NewRouter()
