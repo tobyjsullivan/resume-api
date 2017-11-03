@@ -26,7 +26,7 @@ func executeQuery(query string, schema graphql.Schema) *graphql.Result {
 }
 
 func main() {
-	graph.ProcessLog()
+	graph.Load() // Loaded for demo purposes
 
 	graphSchema, err := resolvers.NewSchema()
 	if err != nil {

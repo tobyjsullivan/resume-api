@@ -24,18 +24,20 @@ var log = []interface{}{
 	&defineRelation{relation: &cityInProvinceRelation{cityId: sanFranciscoId, provinceId: californiaId}},
 }
 
-func ProcessLog() {
-	nodes := make(map[uuid.UUID]node)
+var nodes map[uuid.UUID]node
+
+func init() {
+	nodes = make(map[uuid.UUID]node)
 
 	for _, event := range log {
 		switch e := event.(type) {
 		case *defineNode:
 			n := e.Node()
-			nodes[n.ID()] = n
+			nodes[n.id()] = n
 		case *defineRelation:
 			r := e.Relationship()
-			f := nodes[r.From()]
-			f.ApplyRelation(&nodes, r)
+			f := nodes[r.from()]
+			f.applyRelation(&nodes, r)
 		}
 	}
 
@@ -46,6 +48,8 @@ func ProcessLog() {
 	sf := nodes[sanFranciscoId].(*city)
 	fmt.Printf("city: %v; province: %v\n", sf.name, sf.province.name)
 }
+
+func Load() { /* no-op */ }
 
 type defineNode struct {
 	node node

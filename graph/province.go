@@ -7,10 +7,10 @@ type province struct {
 	name       string
 }
 
-func (p *province) ID() uuid.UUID {
+func (p *province) id() uuid.UUID {
 	return p.provinceId
 }
 
-func (p *province) ApplyRelation(nodes *map[uuid.UUID]node, r relation) {
+func (p *province) applyRelation(nodes *map[uuid.UUID]node, r relation) {
 	// No relationships
 }
