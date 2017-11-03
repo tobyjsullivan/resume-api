@@ -8,11 +8,11 @@ type city struct {
 	province *province
 }
 
-func (c *city) ID() uuid.UUID {
+func (c *city) id() uuid.UUID {
 	return c.cityId
 }
 
-func (c *city) ApplyRelation(nodes *map[uuid.UUID]node, r relation) {
+func (c *city) applyRelation(nodes *map[uuid.UUID]node, r relation) {
 	switch rel := r.(type) {
 	case *cityInProvinceRelation:
 		p := (*nodes)[rel.provinceId].(*province)
@@ -25,6 +25,6 @@ type cityInProvinceRelation struct {
 	provinceId uuid.UUID
 }
 
-func (r *cityInProvinceRelation) From() uuid.UUID {
+func (r *cityInProvinceRelation) from() uuid.UUID {
 	return r.cityId
 }
