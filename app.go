@@ -11,6 +11,7 @@ import (
 	"github.com/tobyjsullivan/resume-api/resolvers"
 	"github.com/urfave/negroni"
 	"os"
+	"github.com/tobyjsullivan/resume-api/graph"
 )
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {
@@ -25,6 +26,7 @@ func executeQuery(query string, schema graphql.Schema) *graphql.Result {
 }
 
 func main() {
+	graph.ProcessLog()
 
 	graphSchema, err := resolvers.NewSchema()
 	if err != nil {
