@@ -1,0 +1,10 @@
+version: '3'
+services:
+  graphql-api:
+    build:
+      context: .
+      dockerfile: graphql-api/Dockerfile
+  people-db:
+    build:
+      context: .
+      dockerfile: people-db/Dockerfile
