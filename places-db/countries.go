@@ -6,7 +6,7 @@ type country struct {
 	CommonName   string `json:"commonName"`
 }
 
-var countries = []country{
+var countries = []*country{
 	{
 		ID:           "a944ee85-b10a-45b7-b749-2a32733ca26f",
 		OfficialName: "Canada",
@@ -22,7 +22,7 @@ var countries = []country{
 func findCountry(id string) (*country) {
 	for _, c := range countries {
 		if c.ID == id {
-			return &c
+			return c
 		}
 	}
 
