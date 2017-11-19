@@ -47,7 +47,7 @@ var countryFields = graphql.Fields{
 
 			data, err := c.getData()
 			if err != nil {
-				return "", err
+				return nil, err
 			}
 
 			return data.CommonName, nil

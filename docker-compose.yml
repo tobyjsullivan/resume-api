@@ -7,6 +7,8 @@ services:
     depends_on:
       - "people-db"
       - "places-db"
+      - "companies-db"
+      - "jobs-db"
     ports:
       - "8000:8080"
   people-db:
@@ -21,3 +23,15 @@ services:
       dockerfile: places-db/Dockerfile
     ports:
       - "8041:3000"
+  companies-db:
+    build:
+      context: .
+      dockerfile: companies-db/Dockerfile
+    ports:
+      - "8042:3000"
+  jobs-db:
+    build:
+      context: .
+      dockerfile: jobs-db/Dockerfile
+    ports:
+      - "8043:3000"

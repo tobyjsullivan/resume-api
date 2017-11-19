@@ -8,7 +8,7 @@ type person struct {
 	CurrentCityID  string   `json:"currentCityID"`
 }
 
-var people = []person{
+var people = []*person{
 	{
 		ID:             "40d8ed45-6977-47b5-92fa-7c4c4fe214c6",
 		GivenNames:     []string{"Toby", "Jay"},
@@ -21,7 +21,7 @@ var people = []person{
 func find(id string) (*person) {
 	for _, p := range people {
 		if p.ID == id {
-			return &p
+			return p
 		}
 	}
 
