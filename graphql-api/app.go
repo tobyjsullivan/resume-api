@@ -8,10 +8,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/graphql"
-	"github.com/tobyjsullivan/resume-api/resolvers"
 	"github.com/urfave/negroni"
 	"os"
-	"github.com/tobyjsullivan/resume-api/graph"
+	"github.com/tobyjsullivan/resume-api/graphql-api/schema"
 )
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {
@@ -26,15 +25,14 @@ func executeQuery(query string, schema graphql.Schema) *graphql.Result {
 }
 
 func main() {
-	graph.Load() // Loaded for demo purposes
-
-	graphSchema, err := resolvers.NewSchema()
+	graphSchema, err := schema.NewSchema()
 	if err != nil {
 		log.Fatalln("failed to create new resolvers", err)
 	}
 
 	r := mux.NewRouter()
 	r.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Request to /graphql")
 		var req struct {
 			Query     string      `json:"query"`
 			Variables interface{} `json:"variables"`

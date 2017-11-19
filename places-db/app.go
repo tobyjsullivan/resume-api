@@ -27,8 +27,8 @@ func main() {
 func buildRoutes() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", statusHandler).Methods(http.MethodGet)
-	r.HandleFunc("/people", peopleIndexHandler).Methods(http.MethodGet)
-	r.HandleFunc("/people/{id}", personHandler).Methods(http.MethodGet)
+	r.HandleFunc("/countries/{id}", countryHandler).Methods(http.MethodGet)
+	r.HandleFunc("/cities/{id}", cityHandler).Methods(http.MethodGet)
 
 	return r
 }
@@ -39,7 +39,7 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 		Service string `json:"service"`
 	}{
 		Status: "ok",
-		Service: "people-db",
+		Service: "places-db",
 	}
 
 	w.Header().Set("content-type", "application/json")
@@ -49,27 +49,52 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func peopleIndexHandler(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func personHandler(w http.ResponseWriter, r *http.Request) {
+func countryHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	personId := vars["id"]
+	id := vars["id"]
 
-	p := find(personId)
+	c := findCountry(id)
 
-	if p == nil {
-		http.Error(w, "No person found.", http.StatusNotFound)
+	if c == nil {
+		respondWithError(w, "No country found", http.StatusNotFound)
 		return
 	}
 
+	respond(w, c)
+}
+
+func cityHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	c := findCity(id)
+
+	if c == nil {
+		respondWithError(w, "No city found", http.StatusNotFound)
+		return
+	}
+
+	respond(w, c)
+}
+
+func respond(w http.ResponseWriter, result interface{}) {
 	res := &response{
-		Result: p,
+		Result: result,
 	}
 
 	if err := json.NewEncoder(w).Encode(res); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		respondWithError(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func respondWithError(w http.ResponseWriter, err string, code int) {
+	res := &response{
+		Error: err,
+	}
+
+	w.WriteHeader(code)
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		log.Panic(err)
 	}
 }
 

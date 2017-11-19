@@ -2,8 +2,8 @@ package resolvers
 
 import (
 	"github.com/graphql-go/graphql"
-	"github.com/tobyjsullivan/resume-api/data"
 	"errors"
+	"github.com/tobyjsullivan/resume-api/data"
 )
 
 var cityType = graphql.NewObject(
