@@ -16,7 +16,7 @@ func RootQueryType() *graphql.Object {
 					Type: personType,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 						log.Println("me.Resolve: returning person", mePersonId)
-						return &person{id: mePersonId}, nil
+						return person(mePersonId), nil
 					},
 				},
 			},
