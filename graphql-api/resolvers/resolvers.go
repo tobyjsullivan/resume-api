@@ -2,12 +2,12 @@ package resolvers
 
 import (
 	"github.com/graphql-go/graphql"
-	"github.com/tobyjsullivan/resume-api/data"
+	"log"
 )
 
-const dateFmt = "2006-01-02"
+const mePersonId = "40d8ed45-6977-47b5-92fa-7c4c4fe214c6"
 
-func rootQueryType() *graphql.Object {
+func RootQueryType() *graphql.Object {
 	return graphql.NewObject(
 		graphql.ObjectConfig{
 			Name: "Query",
@@ -15,16 +15,11 @@ func rootQueryType() *graphql.Object {
 				"me": &graphql.Field{
 					Type: personType,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return data.Me(), nil
+						log.Println("me.Resolve: returning person", mePersonId)
+						return &person{id: mePersonId}, nil
 					},
 				},
 			},
 		},
 	)
-}
-
-func NewSchema() (graphql.Schema, error) {
-	schemaConfig := graphql.SchemaConfig{Query: rootQueryType()}
-
-	return graphql.NewSchema(schemaConfig)
 }

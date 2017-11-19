@@ -4,7 +4,20 @@ services:
     build:
       context: .
       dockerfile: graphql-api/Dockerfile
+    depends_on:
+      - "people-db"
+      - "places-db"
+    ports:
+      - "8000:8080"
   people-db:
     build:
       context: .
       dockerfile: people-db/Dockerfile
+    ports:
+      - "8040:3000"
+  places-db:
+    build:
+      context: .
+      dockerfile: places-db/Dockerfile
+    ports:
+      - "8041:3000"
