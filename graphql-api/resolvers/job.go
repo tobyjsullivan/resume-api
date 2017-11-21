@@ -19,6 +19,8 @@ type jobData struct {
 	EmployerCompanyId string `json:"employerCompanyId"`
 	LocationCityId string `json:"locationCityId"`
 	Remote bool `json:"remote"`
+	StartDate *string `json:"startDate"`
+	EndDate *string `json:"endDate"`
 }
 
 func (j *job) getData() (*jobData, error) {
@@ -112,6 +114,38 @@ func buildJobFields() graphql.Fields {
 				}
 
 				return data.Remote, nil
+			},
+		},
+		"startDate": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(*job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
+
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.StartDate, nil
+			},
+		},
+		"endDate": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(*job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
+
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.EndDate, nil
 			},
 		},
 	}

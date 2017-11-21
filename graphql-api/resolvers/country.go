@@ -16,6 +16,7 @@ type country struct {
 
 type countryData struct {
 	CommonName string `json:"commonName"`
+	OfficialName string `json:"officialName"`
 }
 
 func (c *country) getData() (*countryData, error) {
@@ -61,6 +62,22 @@ func buildCountryFields() graphql.Fields {
 				}
 
 				return data.CommonName, nil
+			},
+		},
+		"officialName": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(*country)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Country")
+				}
+
+				data, err := c.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.OfficialName, nil
 			},
 		},
 	}
