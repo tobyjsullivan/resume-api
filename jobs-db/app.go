@@ -29,16 +29,18 @@ func buildRoutes() http.Handler {
 	r.HandleFunc("/", statusHandler).Methods(http.MethodGet)
 	r.HandleFunc("/jobs", jobIndexHandler).Methods(http.MethodGet)
 	r.HandleFunc("/jobs/{id}", jobHandler).Methods(http.MethodGet)
+	r.HandleFunc("/roles", roleIndexHandler).Methods(http.MethodGet)
+	r.HandleFunc("/roles/{id}", roleHandler).Methods(http.MethodGet)
 
 	return r
 }
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {
 	resp := struct {
-		Status string `json:"status"`
+		Status  string `json:"status"`
 		Service string `json:"service"`
 	}{
-		Status: "ok",
+		Status:  "ok",
 		Service: "jobs-db",
 	}
 
@@ -59,7 +61,7 @@ func jobIndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := findByPersonId(personId)
+	result := findJobsByPersonId(personId)
 
 	res := &response{
 		Result: result,
@@ -68,8 +70,6 @@ func jobIndexHandler(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(res); err != nil {
 		respondWithError(w, err.Error(), http.StatusInternalServerError)
 	}
-
-	//respond(w, jobs)
 }
 
 func jobHandler(w http.ResponseWriter, r *http.Request) {
@@ -77,11 +77,48 @@ func jobHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	c := find(id)
+	c := findJob(id)
 
 	if c == nil {
-		log.Println("jobHandler: no company found")
-		http.Error(w, "No company found.", http.StatusNotFound)
+		log.Println("jobHandler: no job found")
+		http.Error(w, "No job found.", http.StatusNotFound)
+		return
+	}
+
+	respond(w, c)
+}
+
+func roleIndexHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("roleIndexHandler: request received.")
+	q := r.URL.Query()
+
+	jobId := q.Get("job-id")
+	if jobId == "" {
+		respondWithError(w, "param job-id must be provided", http.StatusBadRequest)
+		return
+	}
+
+	result := findRolesByJobId(jobId)
+
+	res := &response{
+		Result: result,
+	}
+
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		respondWithError(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func roleHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("roleHandler: request received.")
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	c := findRole(id)
+
+	if c == nil {
+		log.Println("jobHandler: no role found")
+		http.Error(w, "No role found.", http.StatusNotFound)
 		return
 	}
 
@@ -111,5 +148,5 @@ func respondWithError(w http.ResponseWriter, err string, code int) {
 
 type response struct {
 	Result interface{} `json:"result,omitempty"`
-	Error string `json:"error,omitempty"`
+	Error  string      `json:"error,omitempty"`
 }
