@@ -1,8 +1,9 @@
 package resolvers
 
 import (
-	"github.com/graphql-go/graphql"
 	"log"
+
+	"github.com/graphql-go/graphql"
 )
 
 const mePersonId = "40d8ed45-6977-47b5-92fa-7c4c4fe214c6"

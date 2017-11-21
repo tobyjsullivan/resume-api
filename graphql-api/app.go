@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/graphql"
 	"github.com/tobyjsullivan/resume-api/graphql-api/schema"
 	"github.com/urfave/negroni"
-	"os"
 )
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {
