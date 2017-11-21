@@ -78,119 +78,116 @@ func (p person) getJobs() ([]job, error) {
 	return out, nil
 }
 
-var personFields = graphql.Fields{
-	"firstName": &graphql.Field{
-		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+var personType *graphql.Object
 
-			data, err := person.getData()
-			if err != nil {
-				return nil, err
-			}
+func buildPersonFields() graphql.Fields {
+	return graphql.Fields{
+		"firstName": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			var firstName string
-			if len(data.GivenNames) > 0 {
-				firstName = data.GivenNames[0]
-			}
+				data, err := person.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return firstName, nil
+				var firstName string
+				if len(data.GivenNames) > 0 {
+					firstName = data.GivenNames[0]
+				}
+
+				return firstName, nil
+			},
 		},
-	},
-	"surname": &graphql.Field{
-		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+		"surname": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			data, err := person.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := person.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return data.Surname, nil
+				return data.Surname, nil
+			},
 		},
-	},
-	"givenNames": &graphql.Field{
-		Type: graphql.NewList(graphql.String),
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+		"givenNames": &graphql.Field{
+			Type: graphql.NewList(graphql.String),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			data, err := person.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := person.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return data.GivenNames, nil
+				return data.GivenNames, nil
+			},
 		},
-	},
-	"currentCity": &graphql.Field{
-		Type: cityType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+		"currentCity": &graphql.Field{
+			Type: cityType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			data, err := person.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := person.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return city(data.CurrentCityID), nil
+				return city(data.CurrentCityID), nil
+			},
 		},
-	},
-	"hometown": &graphql.Field{
-		Type: cityType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+		"hometown": &graphql.Field{
+			Type: cityType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			data, err := person.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := person.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return city(data.HometownCityID), nil
+				return city(data.HometownCityID), nil
+			},
 		},
-	},
-	"jobs": &graphql.Field{
-		Type: graphql.NewList(jobType),
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			person, ok := p.Source.(person)
-			if !ok {
-				log.Println("personType.Resolve: case failes")
-				return nil, errors.New("Couldn't cast to person")
-			}
+		"jobs": &graphql.Field{
+			Type: graphql.NewList(jobType),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				person, ok := p.Source.(person)
+				if !ok {
+					log.Println("personType.Resolve: case failes")
+					return nil, errors.New("Couldn't cast to person")
+				}
 
-			jobs, err := person.getJobs()
-			if err != nil {
-				return nil, err
-			}
+				jobs, err := person.getJobs()
+				if err != nil {
+					return nil, err
+				}
 
-			return jobs, nil
+				return jobs, nil
+			},
 		},
-	},
+	}
 }
-
-var personType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "Person",
-		Fields: personFields,
-	},
-)

@@ -39,76 +39,73 @@ func (j job) getData() (*jobData, error) {
 	return respData.Result, nil
 }
 
-var jobFields = graphql.Fields{
-	//"employee": &graphql.Field{
-	//	Type: personType,
-	//	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-	//		j, ok := p.Source.(job)
-	//		if !ok {
-	//			return nil, errors.New("Couldn't cast to Job")
-	//		}
-	//
-	//		data, err := j.getData()
-	//		if err != nil {
-	//			return nil, err
-	//		}
-	//
-	//		return person(data.EmployeePersonId), nil
-	//	},
-	//},
-	"employer": &graphql.Field{
-		Type: companyType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			j, ok := p.Source.(job)
-			if !ok {
-				return nil, errors.New("Couldn't cast to Job")
-			}
+var jobType *graphql.Object
 
-			data, err := j.getData()
-			if err != nil {
-				return nil, err
-			}
+func buildJobFields() graphql.Fields {
+	return graphql.Fields{
+		"employee": &graphql.Field{
+			Type: personType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
 
-			return company(data.EmployerCompanyId), nil
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return person(data.EmployeePersonId), nil
+			},
 		},
-	},
-	"location": &graphql.Field{
-		Type: cityType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			j, ok := p.Source.(job)
-			if !ok {
-				return nil, errors.New("Couldn't cast to Job")
-			}
+		"employer": &graphql.Field{
+			Type: companyType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
 
-			data, err := j.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return city(data.LocationCityId), nil
+				return company(data.EmployerCompanyId), nil
+			},
 		},
-	},
-	"remote": &graphql.Field{
-		Type: graphql.Boolean,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			j, ok := p.Source.(job)
-			if !ok {
-				return nil, errors.New("Couldn't cast to Job")
-			}
+		"location": &graphql.Field{
+			Type: cityType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
 
-			data, err := j.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return data.Remote, nil
+				return city(data.LocationCityId), nil
+			},
 		},
-	},
+		"remote": &graphql.Field{
+			Type: graphql.Boolean,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				j, ok := p.Source.(job)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Job")
+				}
+
+				data, err := j.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.Remote, nil
+			},
+		},
+	}
 }
-
-var jobType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "Job",
-		Fields: jobFields,
-	},
-)

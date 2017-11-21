@@ -37,44 +37,41 @@ func (c city) getData() (*cityData, error) {
 	return respData.Result, nil
 }
 
-var cityFields = graphql.Fields{
-	"name": &graphql.Field{
-		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			c, ok := p.Source.(city)
-			if !ok {
-				return nil, errors.New("Couldn't cast to City")
-			}
+var cityType *graphql.Object
 
-			data, err := c.getData()
-			if err != nil {
-				return "", err
-			}
+func buildCityFields() graphql.Fields {
+	return graphql.Fields{
+		"name": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(city)
+				if !ok {
+					return nil, errors.New("Couldn't cast to City")
+				}
 
-			return data.Name, nil
+				data, err := c.getData()
+				if err != nil {
+					return "", err
+				}
+
+				return data.Name, nil
+			},
 		},
-	},
-	"country": &graphql.Field{
-		Type: countryType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			c, ok := p.Source.(city)
-			if !ok {
-				return nil, errors.New("Couldn't cast to City")
-			}
+		"country": &graphql.Field{
+			Type: countryType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(city)
+				if !ok {
+					return nil, errors.New("Couldn't cast to City")
+				}
 
-			data, err := c.getData()
-			if err != nil {
-				return "", err
-			}
+				data, err := c.getData()
+				if err != nil {
+					return "", err
+				}
 
-			return country(data.CountryID), nil
+				return country(data.CountryID), nil
+			},
 		},
-	},
+	}
 }
-
-var cityType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "City",
-		Fields: cityFields,
-	},
-)
