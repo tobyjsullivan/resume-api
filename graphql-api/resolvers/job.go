@@ -9,7 +9,10 @@ import (
 	"errors"
 )
 
-type job string
+type job struct {
+	ID string
+	data *jobData
+}
 
 type jobData struct {
 	EmployeePersonId string `json:"employeePersonId"`
@@ -18,25 +21,29 @@ type jobData struct {
 	Remote bool `json:"remote"`
 }
 
-func (j job) getData() (*jobData, error) {
-	log.Println("Fetching data for job:", string(j))
-	resp, err := http.Get(fmt.Sprintf("http://jobs-db:3000/jobs/%s", string(j)))
-	if err != nil {
-		log.Println("city.getData: ", err.Error())
-		return nil, err
+func (j *job) getData() (*jobData, error) {
+	if j.data == nil {
+		log.Println("Fetching data for job:", j.ID)
+		resp, err := http.Get(fmt.Sprintf("http://jobs-db:3000/jobs/%s", j.ID))
+		if err != nil {
+			log.Println("city.getData: ", err.Error())
+			return nil, err
+		}
+
+		var respData struct {
+			Result *jobData `json:"result"`
+			Error  string   `json:"error"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
+			log.Println("city.getData: ", err.Error())
+			return nil, err
+		}
+
+		j.data = respData.Result
 	}
 
-	var respData struct {
-		Result *jobData `json:"result"`
-		Error  string      `json:"error"`
-	}
-
-	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		log.Println("city.getData: ", err.Error())
-		return nil, err
-	}
-
-	return respData.Result, nil
+	return j.data, nil
 }
 
 var jobType *graphql.Object
@@ -46,7 +53,7 @@ func buildJobFields() graphql.Fields {
 		"employee": &graphql.Field{
 			Type: personType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				j, ok := p.Source.(job)
+				j, ok := p.Source.(*job)
 				if !ok {
 					return nil, errors.New("Couldn't cast to Job")
 				}
@@ -56,13 +63,13 @@ func buildJobFields() graphql.Fields {
 					return nil, err
 				}
 
-				return person(data.EmployeePersonId), nil
+				return &person{ID: data.EmployeePersonId}, nil
 			},
 		},
 		"employer": &graphql.Field{
 			Type: companyType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				j, ok := p.Source.(job)
+				j, ok := p.Source.(*job)
 				if !ok {
 					return nil, errors.New("Couldn't cast to Job")
 				}
@@ -72,13 +79,13 @@ func buildJobFields() graphql.Fields {
 					return nil, err
 				}
 
-				return company(data.EmployerCompanyId), nil
+				return &company{ID: data.EmployerCompanyId}, nil
 			},
 		},
 		"location": &graphql.Field{
 			Type: cityType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				j, ok := p.Source.(job)
+				j, ok := p.Source.(*job)
 				if !ok {
 					return nil, errors.New("Couldn't cast to Job")
 				}
@@ -88,13 +95,13 @@ func buildJobFields() graphql.Fields {
 					return nil, err
 				}
 
-				return city(data.LocationCityId), nil
+				return &city{ID: data.LocationCityId}, nil
 			},
 		},
 		"remote": &graphql.Field{
 			Type: graphql.Boolean,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				j, ok := p.Source.(job)
+				j, ok := p.Source.(*job)
 				if !ok {
 					return nil, errors.New("Couldn't cast to Job")
 				}
