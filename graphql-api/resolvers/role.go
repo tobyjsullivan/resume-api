@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/graphql-go/graphql"
 	"log"
 	"net/http"
+
+	"github.com/graphql-go/graphql"
 )
 
 type role struct {
