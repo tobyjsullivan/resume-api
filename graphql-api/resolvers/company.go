@@ -65,6 +65,22 @@ func buildCompanyFields() graphql.Fields {
 				return data.CommonName, nil
 			},
 		},
+		"officialName": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(*company)
+				if !ok {
+					return nil, errors.New("Couldn't cast to City")
+				}
+
+				data, err := c.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.OfficialName, nil
+			},
+		},
 		"city": &graphql.Field{
 			Type: cityType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

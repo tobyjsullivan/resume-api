@@ -21,7 +21,7 @@ var companies = []*company{
 	},
 	{
 		ID: "6ded79f9-9875-4c9e-bfe7-c3689c6e083a",
-		OfficialName: "Teespring",
+		OfficialName: "Teespring, Inc.",
 		CommonName: "Teespring",
 		CityID: cityIdSanFrancisco,
 	},
