@@ -11,16 +11,16 @@ import (
 )
 
 type person struct {
-	ID string
-	data *personData
+	ID      string
+	data    *personData
 	jobData *[]*job
 }
 
 type personData struct {
-	GivenNames []string `json:"givenNames"`
-	Surname    string   `json:"surname"`
-	CurrentCityID string `json:"currentCityId"`
-	HometownCityID string `json:"hometownCityId"`
+	GivenNames     []string `json:"givenNames"`
+	Surname        string   `json:"surname"`
+	CurrentCityID  string   `json:"currentCityId"`
+	HometownCityID string   `json:"hometownCityId"`
 }
 
 func (p *person) getData() (*personData, error) {

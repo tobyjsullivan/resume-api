@@ -10,4 +10,3 @@ func NewSchema() (graphql.Schema, error) {
 
 	return graphql.NewSchema(schemaConfig)
 }
-

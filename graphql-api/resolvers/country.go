@@ -1,21 +1,21 @@
 package resolvers
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/graphql-go/graphql"
 	"log"
 	"net/http"
-	"fmt"
-	"encoding/json"
-	"github.com/graphql-go/graphql"
-	"errors"
 )
 
 type country struct {
-	ID string
+	ID   string
 	data *countryData
 }
 
 type countryData struct {
-	CommonName string `json:"commonName"`
+	CommonName   string `json:"commonName"`
 	OfficialName string `json:"officialName"`
 }
 

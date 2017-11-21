@@ -21,7 +21,7 @@ func (c *city) applyRelation(nodes *map[uuid.UUID]node, r relation) {
 }
 
 type cityInProvinceRelation struct {
-	cityId uuid.UUID
+	cityId     uuid.UUID
 	provinceId uuid.UUID
 }
 

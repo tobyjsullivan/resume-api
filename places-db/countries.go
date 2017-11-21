@@ -19,7 +19,7 @@ var countries = []*country{
 	},
 }
 
-func findCountry(id string) (*country) {
+func findCountry(id string) *country {
 	for _, c := range countries {
 		if c.ID == id {
 			return c

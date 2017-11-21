@@ -1,22 +1,22 @@
 package graph
 
 import (
-	"github.com/satori/go.uuid"
 	"fmt"
+	"github.com/satori/go.uuid"
 )
 
 var (
-	vancouverId = uuid.NewV4()
-	victoriaId = uuid.NewV4()
-	sanFranciscoId = uuid.NewV4()
+	vancouverId       = uuid.NewV4()
+	victoriaId        = uuid.NewV4()
+	sanFranciscoId    = uuid.NewV4()
 	britishColumbiaId = uuid.NewV4()
-	californiaId = uuid.NewV4()
+	californiaId      = uuid.NewV4()
 )
 
 var log = []interface{}{
-	&defineNode{node: &city{cityId:vancouverId, name: "Vancouver"}},
-	&defineNode{node: &city{cityId:victoriaId, name: "Victoria"}},
-	&defineNode{node: &city{cityId:sanFranciscoId, name: "San Francisco"}},
+	&defineNode{node: &city{cityId: vancouverId, name: "Vancouver"}},
+	&defineNode{node: &city{cityId: victoriaId, name: "Victoria"}},
+	&defineNode{node: &city{cityId: sanFranciscoId, name: "San Francisco"}},
 	&defineNode{node: &province{provinceId: britishColumbiaId, name: "British Columbia"}},
 	&defineNode{node: &province{provinceId: californiaId, name: "California"}},
 	&defineRelation{relation: &cityInProvinceRelation{cityId: vancouverId, provinceId: britishColumbiaId}},

@@ -18,7 +18,7 @@ var people = []*person{
 	},
 }
 
-func find(id string) (*person) {
+func find(id string) *person {
 	for _, p := range people {
 		if p.ID == id {
 			return p

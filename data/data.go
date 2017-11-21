@@ -1,9 +1,9 @@
 package data
 
 import (
+	"github.com/satori/go.uuid"
 	"net/url"
 	"time"
-	"github.com/satori/go.uuid"
 )
 
 const (
@@ -11,28 +11,28 @@ const (
 )
 
 type Person struct {
-	ID uuid.UUID
-	FirstName string
+	ID         uuid.UUID
+	FirstName  string
 	MiddleName string
-	LastName string
-	Website *url.URL
+	LastName   string
+	Website    *url.URL
 	JobHistory []*Job
 }
 
 type Company struct {
-	ID uuid.UUID
+	ID   uuid.UUID
 	Name string
 	City *City
 }
 
 type City struct {
-	ID uuid.UUID
-	Name string
+	ID       uuid.UUID
+	Name     string
 	Province *Province
 }
 
 type Province struct {
-	Name string
+	Name    string
 	Country *Country
 }
 
@@ -41,18 +41,18 @@ type Country struct {
 }
 
 type Job struct {
-	Company *Company
+	Company   *Company
 	StartDate *time.Time
-	EndDate *time.Time
-	City *City
-	Remote bool
-	Roles []*Role
+	EndDate   *time.Time
+	City      *City
+	Remote    bool
+	Roles     []*Role
 }
 
 type Role struct {
 	StartDate *time.Time
-	EndDate *time.Time
-	Title string
+	EndDate   *time.Time
+	Title     string
 }
 
 var (
@@ -67,18 +67,18 @@ var (
 		Country: usa,
 	}
 	vancouver = &City{
-		ID: uuid.NewV4(),
-		Name: "Vancouver",
+		ID:       uuid.NewV4(),
+		Name:     "Vancouver",
 		Province: britishColumbia,
 	}
 	victoria = &City{
-		ID: uuid.NewV4(),
-		Name: "Victoria",
+		ID:       uuid.NewV4(),
+		Name:     "Victoria",
 		Province: britishColumbia,
 	}
 	sanFrancisco = &City{
-		ID: uuid.NewV4(),
-		Name: "San Francisco",
+		ID:       uuid.NewV4(),
+		Name:     "San Francisco",
 		Province: california,
 	}
 	cities = []*City{
@@ -87,27 +87,27 @@ var (
 		sanFrancisco,
 	}
 	klue = &Company{
-		ID: uuid.NewV4(),
+		ID:   uuid.NewV4(),
 		Name: "Klue",
 		City: vancouver,
 	}
 	teespring = &Company{
-		ID: uuid.NewV4(),
+		ID:   uuid.NewV4(),
 		Name: "Teespring",
 		City: sanFrancisco,
 	}
 	hootsuite = &Company{
-		ID: uuid.NewV4(),
+		ID:   uuid.NewV4(),
 		Name: "Hootsuite",
 		City: vancouver,
 	}
 	metalogix = &Company{
-		ID: uuid.NewV4(),
+		ID:   uuid.NewV4(),
 		Name: "Metalogix",
 		City: vancouver,
 	}
 	shipConstructor = &Company{
-		ID: uuid.NewV4(),
+		ID:   uuid.NewV4(),
 		Name: "ShipConstructor",
 		City: victoria,
 	}
@@ -122,102 +122,102 @@ var (
 	website, _ = url.Parse("https://tobysullivan.net")
 
 	me = &Person{
-		ID: uuid.NewV4(),
+		ID:         uuid.NewV4(),
 		FirstName:  "Toby",
 		MiddleName: "Jay",
 		LastName:   "Sullivan",
 		Website:    website,
 		JobHistory: []*Job{
 			{
-				Company: klue,
+				Company:   klue,
 				StartDate: date("2017-04-24"),
-				EndDate: nil,
-				City: vancouver,
+				EndDate:   nil,
+				City:      vancouver,
 				Roles: []*Role{
 					{
-						Title: "Software Developer",
+						Title:     "Software Developer",
 						StartDate: date("2017-04-24"),
-						EndDate: nil,
+						EndDate:   nil,
 					},
 				},
 			},
 			{
-				Company: teespring,
+				Company:   teespring,
 				StartDate: date("2016-01-03"),
-				EndDate: date("2016-12-21"),
-				Remote: true,
+				EndDate:   date("2016-12-21"),
+				Remote:    true,
 				Roles: []*Role{
 					{
-						Title: "Software Developer",
+						Title:     "Software Developer",
 						StartDate: date("2016-01-03"),
-						EndDate: date("2016-12-21"),
+						EndDate:   date("2016-12-21"),
 					},
 				},
 			},
 			{
-				Company: hootsuite,
+				Company:   hootsuite,
 				StartDate: date("2013-11-04"),
-				EndDate: date("2015-12-24"),
-				City: vancouver,
+				EndDate:   date("2015-12-24"),
+				City:      vancouver,
 				Roles: []*Role{
 					{
-						Title: "Software Developer",
+						Title:     "Software Developer",
 						StartDate: date("2013-11-04"),
-						EndDate: nil,
+						EndDate:   nil,
 					},
 					{
-						Title: "Lead Software Developer",
+						Title:     "Lead Software Developer",
 						StartDate: nil,
-						EndDate: date("2015-12-24"),
+						EndDate:   date("2015-12-24"),
 					},
 				},
 			},
 			{
-				Company: hootsuite,
+				Company:   hootsuite,
 				StartDate: date("2013-01-01"),
-				EndDate: date("2013-03-31"),
-				City: vancouver,
+				EndDate:   date("2013-03-31"),
+				City:      vancouver,
 				Roles: []*Role{
 					{
-						Title: "Software Developer (Contract)",
+						Title:     "Software Developer (Contract)",
 						StartDate: date("2013-01-01"),
-						EndDate: date("2013-03-31"),
+						EndDate:   date("2013-03-31"),
 					},
 				},
 			},
 			{
-				Company: metalogix,
+				Company:   metalogix,
 				StartDate: date("2008-05-01"),
-				EndDate: date("2012-12-24"),
-				City: vancouver,
+				EndDate:   date("2012-12-24"),
+				City:      vancouver,
 				Roles: []*Role{
 					{
-						Title: "Software Developer Co-op",
+						Title:     "Software Developer Co-op",
 						StartDate: date("2008-05-01"),
-						EndDate: date("2008-12-24"),
+						EndDate:   date("2008-12-24"),
 					},
 					{
-						Title: "Software Developer",
+						Title:     "Software Developer",
 						StartDate: date("2008-12-24"),
-						EndDate: nil,
+						EndDate:   nil,
 					},
 					{
-						Title: "Lead Software Developer",
+						Title:     "Lead Software Developer",
 						StartDate: nil,
-						EndDate: date("2012-06-29"),
+						EndDate:   date("2012-06-29"),
 					},
 					{
-						Title: "Software Developer (Contract)",
+						Title:     "Software Developer (Contract)",
 						StartDate: date("2012-06-29"),
-						EndDate: date("2012-12-24"),
+						EndDate:   date("2012-12-24"),
 					},
 				},
 			},
 			{
-				Company: shipConstructor,
+				Company:   shipConstructor,
 				StartDate: date("2006-05-01"),
 				EndDate:   date("2006-08-31"),
-				City: victoria,
+				City:      victoria,
 				Roles: []*Role{
 					{
 						Title:     "Quality Assurance Co-op",
@@ -227,15 +227,15 @@ var (
 				},
 			},
 			{
-				Company: shipConstructor,
+				Company:   shipConstructor,
 				StartDate: date("2007-05-01"),
-				EndDate: date("2007-08-31"),
-				City: victoria,
+				EndDate:   date("2007-08-31"),
+				City:      victoria,
 				Roles: []*Role{
 					{
-						Title: "Software Developer Co-op",
+						Title:     "Software Developer Co-op",
 						StartDate: date("2007-05-01"),
-						EndDate: date("2007-08-31"),
+						EndDate:   date("2007-08-31"),
 					},
 				},
 			},
@@ -254,36 +254,36 @@ func date(value string) *time.Time {
 	return &t
 }
 
-func Me()*Person {
+func Me() *Person {
 	return me
 }
 
 func FindCompany(id uuid.UUID) *Company {
 	for _, c := range companies {
 		if c.ID == id {
-			return c;
+			return c
 		}
 	}
 
-	return nil;
+	return nil
 }
 
 func FindCity(id uuid.UUID) *City {
 	for _, c := range cities {
 		if c.ID == id {
-			return c;
+			return c
 		}
 	}
 
-	return nil;
+	return nil
 }
 
 func FindPerson(id uuid.UUID) *Person {
 	for _, p := range people {
 		if p.ID == id {
-			return p;
+			return p
 		}
 	}
 
-	return nil;
+	return nil
 }
