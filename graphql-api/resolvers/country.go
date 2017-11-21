@@ -9,31 +9,38 @@ import (
 	"errors"
 )
 
-type country string
+type country struct {
+	ID string
+	data *countryData
+}
 
 type countryData struct {
 	CommonName string `json:"commonName"`
 }
 
-func (c country) getData() (*countryData, error) {
-	log.Println("Fetching data for country:", string(c))
-	resp, err := http.Get(fmt.Sprintf("http://places-db:3000/countries/%s", string(c)))
-	if err != nil {
-		log.Println("country.getData: ", err.Error())
-		return nil, err
+func (c *country) getData() (*countryData, error) {
+	if c.data == nil {
+		log.Println("Fetching data for country:", c.ID)
+		resp, err := http.Get(fmt.Sprintf("http://places-db:3000/countries/%s", c.ID))
+		if err != nil {
+			log.Println("country.getData: ", err.Error())
+			return nil, err
+		}
+
+		var respData struct {
+			Result *countryData `json:"result"`
+			Error  string       `json:"error"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
+			log.Println("country.getData: ", err.Error())
+			return nil, err
+		}
+
+		c.data = respData.Result
 	}
 
-	var respData struct {
-		Result *countryData `json:"result"`
-		Error  string      `json:"error"`
-	}
-
-	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		log.Println("country.getData: ", err.Error())
-		return nil, err
-	}
-
-	return respData.Result, nil
+	return c.data, nil
 }
 
 var countryType *graphql.Object
@@ -43,7 +50,7 @@ func buildCountryFields() graphql.Fields {
 		"commonName": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				c, ok := p.Source.(country)
+				c, ok := p.Source.(*country)
 				if !ok {
 					return nil, errors.New("Couldn't cast to Country")
 				}
