@@ -36,28 +36,25 @@ func (c country) getData() (*countryData, error) {
 	return respData.Result, nil
 }
 
-var countryFields = graphql.Fields{
-	"commonName": &graphql.Field{
-		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			c, ok := p.Source.(country)
-			if !ok {
-				return nil, errors.New("Couldn't cast to Country")
-			}
+var countryType *graphql.Object
 
-			data, err := c.getData()
-			if err != nil {
-				return nil, err
-			}
+func buildCountryFields() graphql.Fields {
+	return graphql.Fields{
+		"commonName": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(country)
+				if !ok {
+					return nil, errors.New("Couldn't cast to Country")
+				}
 
-			return data.CommonName, nil
+				data, err := c.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.CommonName, nil
+			},
 		},
-	},
+	}
 }
-
-var countryType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "Country",
-		Fields: countryFields,
-	},
-)

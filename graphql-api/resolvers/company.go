@@ -38,44 +38,41 @@ func (c company) getData() (*companyData, error) {
 	return respData.Result, nil
 }
 
-var companyFields = graphql.Fields{
-	"commonName": &graphql.Field{
-		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			c, ok := p.Source.(company)
-			if !ok {
-				return nil, errors.New("Couldn't cast to City")
-			}
+var companyType *graphql.Object
 
-			data, err := c.getData()
-			if err != nil {
-				return nil, err
-			}
+func buildCompanyFields() graphql.Fields {
+	return graphql.Fields{
+		"commonName": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(company)
+				if !ok {
+					return nil, errors.New("Couldn't cast to City")
+				}
 
-			return data.CommonName, nil
+				data, err := c.getData()
+				if err != nil {
+					return nil, err
+				}
+
+				return data.CommonName, nil
+			},
 		},
-	},
-	"city": &graphql.Field{
-		Type: countryType,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			c, ok := p.Source.(company)
-			if !ok {
-				return nil, errors.New("Couldn't cast to City")
-			}
+		"city": &graphql.Field{
+			Type: countryType,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				c, ok := p.Source.(company)
+				if !ok {
+					return nil, errors.New("Couldn't cast to City")
+				}
 
-			data, err := c.getData()
-			if err != nil {
-				return nil, err
-			}
+				data, err := c.getData()
+				if err != nil {
+					return nil, err
+				}
 
-			return city(data.CityID), nil
+				return city(data.CityID), nil
+			},
 		},
-	},
+	}
 }
-
-var companyType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "Company",
-		Fields: companyFields,
-	},
-)
