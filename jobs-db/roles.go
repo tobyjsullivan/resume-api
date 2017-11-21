@@ -72,6 +72,20 @@ var roles = []*role{
 		StartDate: strVal("2012-06-29"),
 		EndDate:   strVal("2012-12-24"),
 	},
+	{
+		ID:        "5582b637-9055-4c4a-80cf-aeca0c901088",
+		JobID:     jobIdShipConstructorTerm1,
+		Title:     "Quality Assurance Co-op",
+		StartDate: strVal("2006-05-01"),
+		EndDate:   strVal("2006-08-31"),
+	},
+	{
+		ID:        "be638494-5264-4502-a289-6dca87eb328b",
+		JobID:     jobIdShipConstructorTerm2,
+		Title:     "Software Developer Co-op",
+		StartDate: strVal("2007-05-01"),
+		EndDate:   strVal("2007-08-31"),
+	},
 }
 
 func findRole(id string) *role {

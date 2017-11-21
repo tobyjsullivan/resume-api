@@ -2,6 +2,7 @@ package main
 
 const (
 	cityIdVancouver    = "13672f03-5cf2-4878-a2cb-1d4e453c56da"
+	cityIdVictoria     = "050a94ab-728d-43bc-9be6-b54f79d330da"
 	cityIdSanFrancisco = "7ce9f77c-32a0-4683-b910-5d82b9a656d6"
 )
 
@@ -36,6 +37,12 @@ var companies = []*company{
 		OfficialName: "Metalogix Software Corp.",
 		CommonName:   "Metalogix",
 		CityID:       cityIdVancouver,
+	},
+	{
+		ID:           "49117105-2e45-401d-a739-586ce3518e93",
+		OfficialName: "ShipConstructor Software Inc.",
+		CommonName:   "ShipConstructor",
+		CityID:       cityIdVictoria,
 	},
 }
 
