@@ -1,23 +1,23 @@
 package resolvers
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/graphql-go/graphql"
 	"log"
 	"net/http"
-	"fmt"
-	"encoding/json"
-	"github.com/graphql-go/graphql"
-	"errors"
 )
 
 type company struct {
-	ID string
+	ID   string
 	data *companyData
 }
 
 type companyData struct {
 	OfficialName string `json:"officialName"`
-	CommonName string `json:"commonName"`
-	CityID string `json:"cityId"`
+	CommonName   string `json:"commonName"`
+	CityID       string `json:"cityId"`
 }
 
 func (c *company) getData() (*companyData, error) {

@@ -1,21 +1,21 @@
 package resolvers
 
 import (
-	"github.com/graphql-go/graphql"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"github.com/graphql-go/graphql"
 	"log"
 	"net/http"
-	"fmt"
-	"encoding/json"
 )
 
 type city struct {
-	ID string
+	ID   string
 	data *cityData
 }
 
 type cityData struct {
-	Name string `json:"name"`
+	Name      string `json:"name"`
 	CountryID string `json:"countryId"`
 }
 

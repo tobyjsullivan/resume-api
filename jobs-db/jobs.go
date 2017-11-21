@@ -85,7 +85,7 @@ var jobs = []*job{
 	},
 }
 
-func findJob(id string) (*job) {
+func findJob(id string) *job {
 	for _, j := range jobs {
 		if j.ID == id {
 			return j

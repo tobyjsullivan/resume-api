@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"os"
 
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
-	"encoding/json"
 	"log"
 )
 

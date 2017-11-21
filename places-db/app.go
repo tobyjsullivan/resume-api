@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"os"
 
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
-	"encoding/json"
 	"log"
 )
 
@@ -35,10 +35,10 @@ func buildRoutes() http.Handler {
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {
 	resp := struct {
-		Status string `json:"status"`
+		Status  string `json:"status"`
 		Service string `json:"service"`
 	}{
-		Status: "ok",
+		Status:  "ok",
 		Service: "places-db",
 	}
 
@@ -100,5 +100,5 @@ func respondWithError(w http.ResponseWriter, err string, code int) {
 
 type response struct {
 	Result interface{} `json:"result,omitempty"`
-	Error string `json:"error,omitempty"`
+	Error  string      `json:"error,omitempty"`
 }
