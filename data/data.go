@@ -207,7 +207,7 @@ var (
 						EndDate: date("2012-06-29"),
 					},
 					{
-						Title: "Software Developer (Freelance)",
+						Title: "Software Developer (Contract)",
 						StartDate: date("2012-06-29"),
 						EndDate: date("2012-12-24"),
 					},
